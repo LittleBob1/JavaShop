@@ -8,7 +8,6 @@ spring:
     password: artemiy713
   flyway:
     enabled: true
-    locations: classpath:db
     url: jdbc:postgresql://localhost:5432/dbforshop
     user: artemiy713
     password: artemiy713

@@ -24,7 +24,15 @@ public class WebSecurityConfig{
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(getOpenedResources()).permitAll()
-                        .requestMatchers("/api/users/**").hasAnyRole("ADMIN"))
+                        .requestMatchers("/api/users/**").hasRole("ADMIN")
+                        .requestMatchers(
+                                "/api/sizes/**",
+                                "/api/brands/**",
+                                "/api/products/**",
+                                "/api/productsItems/**").hasAnyRole("ADMIN", "MANAGER")
+                        .requestMatchers(
+                                "/api/buyers/**",
+                                "/api/orders/**").hasAnyRole("ADMIN", "MANAGER", "CASHIER"))
                 .httpBasic(Customizer.withDefaults());
         return http.build();
     }
@@ -44,6 +52,7 @@ public class WebSecurityConfig{
     private String[] getOpenedResources() {
         return new String[]{
                 "/swagger-ui/**",
+                "/swagger-ui.html",
                 "/swagger-resources/**",
                 "/swagger-resources/**",
                 "/v3/api-docs/**",
