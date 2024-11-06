@@ -2,8 +2,6 @@ package com.awaken.kidsshop.modules.registration.controller;
 
 import com.awaken.kidsshop.modules.registration.controller.dto.RegistrationRequest;
 import com.awaken.kidsshop.modules.registration.service.RegistrationService;
-import com.awaken.kidsshop.modules.user.entity.User;
-import com.awaken.kidsshop.modules.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

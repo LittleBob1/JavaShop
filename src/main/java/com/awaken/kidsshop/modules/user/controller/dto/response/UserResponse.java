@@ -1,6 +1,6 @@
 package com.awaken.kidsshop.modules.user.controller.dto.response;
 
-import com.awaken.kidsshop.modules.role.entity.Role;
+import com.awaken.kidsshop.modules.role.dto.RoleResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,5 +12,5 @@ import java.util.Set;
 public class UserResponse {
     public Long id;
     public String username;
-    private Set<Role> roles;
+    private Set<RoleResponse> roles;
 }

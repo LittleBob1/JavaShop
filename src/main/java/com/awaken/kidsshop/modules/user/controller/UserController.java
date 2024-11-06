@@ -2,7 +2,6 @@ package com.awaken.kidsshop.modules.user.controller;
 
 import com.awaken.kidsshop.modules.user.controller.dto.request.UserRequest;
 import com.awaken.kidsshop.modules.user.controller.dto.response.UserResponse;
-import com.awaken.kidsshop.modules.user.entity.User;
 import com.awaken.kidsshop.modules.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -122,6 +123,10 @@ public class OrderService {
                 orderItem.setOrder(order);
                 return orderItem;
             }).collect(Collectors.toSet());
+
+            if (order.getOrderItems() == null) {
+                order.setOrderItems(new HashSet<>());
+            }
 
             order.getOrderItems().clear();
             order.getOrderItems().addAll(orderItems);

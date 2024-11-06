@@ -1,6 +1,6 @@
 package com.awaken.kidsshop.modules.user.service;
 
-import com.awaken.kidsshop.modules.registration.controller.dto.RegistrationRequest;
+import com.awaken.kidsshop.modules.role.dto.RoleResponse;
 import com.awaken.kidsshop.modules.role.entity.Role;
 import com.awaken.kidsshop.modules.user.controller.dto.request.UserRequest;
 import com.awaken.kidsshop.modules.user.controller.dto.response.UserResponse;
@@ -49,7 +49,7 @@ public class UserService implements UserDetailsService {
         UserResponse userResponse = new UserResponse();
         userResponse.setId(userFromDb.getId());
         userResponse.setUsername(userFromDb.getUsername());
-        userResponse.setRoles(userFromDb.getRoles());
+        userResponse.setRoles(getRolesResponse(userFromDb));
         return userResponse;
     }
 
@@ -59,7 +59,7 @@ public class UserService implements UserDetailsService {
             UserResponse userResponse = new UserResponse();
             userResponse.setId(user.getId());
             userResponse.setUsername(user.getUsername());
-            userResponse.setRoles(user.getRoles());
+            userResponse.setRoles(getRolesResponse(user));
             return userResponse;
         }).toList();
     }
@@ -79,9 +79,7 @@ public class UserService implements UserDetailsService {
         user.setPassword(bCryptPasswordEncoder.encode(userRequest.getPassword()));
 
         Set<Role> roles = new HashSet<>();
-        userRequest.getRoles().forEach(roleId -> {
-            roleRepository.findById(roleId).ifPresent(roles::add);
-        });
+        userRequest.getRoles().forEach(roleId -> roleRepository.findById(roleId).ifPresent(roles::add));
 
         if(roles.isEmpty()){
             user.setRoles(Collections.singleton(roleRepository.findByName("ROLE_USER")));
@@ -94,10 +92,9 @@ public class UserService implements UserDetailsService {
         UserResponse userResponse = new UserResponse();
         userResponse.setUsername(user.getUsername());
         userResponse.setId(user.getId());
-        userResponse.setRoles(user.getRoles());
+        userResponse.setRoles(getRolesResponse(user));
 
         return userResponse;
-
     }
 
     public UserResponse addRolesToUser(Long userId, List<Long> roleIds) {
@@ -117,7 +114,7 @@ public class UserService implements UserDetailsService {
         UserResponse userResponse = new UserResponse();
         userResponse.setUsername(user.getUsername());
         userResponse.setId(user.getId());
-        userResponse.setRoles(user.getRoles());
+        userResponse.setRoles(getRolesResponse(user));
         return userResponse;
     }
 
@@ -127,5 +124,9 @@ public class UserService implements UserDetailsService {
             return true;
         }
         return false;
+    }
+
+    private Set<RoleResponse> getRolesResponse(User user){
+        return user.getRoles().stream().map(role -> new RoleResponse(role.getId(), role.getName())).collect(Collectors.toSet());
     }
 }

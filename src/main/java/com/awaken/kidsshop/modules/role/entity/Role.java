@@ -3,7 +3,6 @@ package com.awaken.kidsshop.modules.role.entity;
 import com.awaken.kidsshop.modules.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 

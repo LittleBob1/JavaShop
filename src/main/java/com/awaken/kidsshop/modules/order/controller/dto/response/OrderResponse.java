@@ -1,7 +1,6 @@
 package com.awaken.kidsshop.modules.order.controller.dto.response;
 
 import com.awaken.kidsshop.modules.buyer.entity.Buyer;
-import com.awaken.kidsshop.modules.orderitem.controller.dto.OrderItemDTO;
 import com.awaken.kidsshop.modules.orderitem.entity.OrderItem;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
