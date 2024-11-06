@@ -114,6 +114,11 @@ INSERT INTO role (id, name) VALUES (2, 'ROLE_MANAGER');
 INSERT INTO role (id, name) VALUES (3, 'ROLE_CASHIER');
 INSERT INTO role (id, name) VALUES (4, 'ROLE_USER');
 
-INSERT INTO users (id, username, password) VALUES (1, 'ADMIN', '$2a$10$2wrPEA5.c9vktJxlMSCeceCdU3ZLUEF5.T1kefSPlkWtDvKyHPJCa');
+WITH inserted_user AS (
+    INSERT INTO users (username, password)
+        VALUES ('ADMIN', '$2a$10$2wrPEA5.c9vktJxlMSCeceCdU3ZLUEF5.T1kefSPlkWtDvKyHPJCa')
+        RETURNING id
+)
 
-INSERT INTO users_roles (user_id, roles_id) VALUES (1, 1);
+INSERT INTO users_roles (user_id, roles_id)
+SELECT id, 1 FROM inserted_user;
