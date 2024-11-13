@@ -19,6 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -49,21 +50,13 @@ public class OrderService {
         return orderRepository.findSalesCountByDay();
     }
 
-    public boolean deleteOrder(Long orderId) {
-        if (orderRepository.findById(orderId).isPresent()) {
-            orderRepository.deleteById(orderId);
-            return true;
-        }
-        return false;
-    }
-
     public OrderResponse createOrder(OrderRequest request){
         Order order = new Order();
         order.setSalesDate(request.getSalesDate());
         order.setStatus(request.getStatus());
 
-        Buyer buyer = buyerRepository.findById(request.getBuyerId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        User user = userRepository.findById(request.getUserId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        Buyer buyer = buyerRepository.findById(request.getBuyerId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Buyer not found"));
+        User user = userRepository.findById(request.getUserId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
 
         order.setBuyer(buyer);
         order.setUser(user);
@@ -87,8 +80,7 @@ public class OrderService {
     }
 
     public OrderResponse updateOrder(Long id, OrderRequest orderDTO){
-        Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found"));
+        Order order = completedOrderCheck(id);
 
         order.setSalesDate(orderDTO.getSalesDate());
         order.setStatus(orderDTO.getStatus());
@@ -112,13 +104,49 @@ public class OrderService {
         return getOrderResponse(order);
     }
 
+    public OrderResponse completeOrder(Long id){
+        Order order = completedOrderCheck(id);
+        order.setStatus("COMPLETED");
+        orderRepository.save(order);
+        return getOrderResponse(order);
+    }
+
+    public OrderResponse returnOrder(Long id){
+        Order order = completedOrderCheck(id);
+        order.setStatus("RETURNED");
+        order.getOrderItems().forEach(item -> {
+            ProductItem productItem = item.getProductItem();
+            productItem.setQuantity(item.getQuantity() + productItem.getQuantity());
+            productItemRepository.save(productItem);
+        });
+        orderRepository.save(order);
+        return getOrderResponse(order);
+    }
+
+    public OrderResponse cancelOrder(Long id){
+        Order order = completedOrderCheck(id);
+        order.setStatus("CANCELLED");
+        order.getOrderItems().forEach(item -> {
+            ProductItem productItem = item.getProductItem();
+            productItem.setQuantity(item.getQuantity() + productItem.getQuantity());
+            productItemRepository.save(productItem);
+        });
+
+        return getOrderResponse(order);
+    }
+
     private void getOrderItems(OrderRequest orderDTO, Order order) {
         if (orderDTO.getOrderItems() != null) {
             Set<OrderItem> orderItems = orderDTO.getOrderItems().stream().map(itemDTO -> {
                 OrderItem orderItem = new OrderItem();
                 ProductItem productItem = productItemRepository.findById(itemDTO.getProductItemId())
                         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ProductItem not found"));
+                if(itemDTO.getQuantity() <= 0 || productItem.getQuantity() < itemDTO.getQuantity()){
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Quantity exceeded");
+                }
                 orderItem.setProductItem(productItem);
+                productItem.setQuantity(productItem.getQuantity() - itemDTO.getQuantity());
+                productItemRepository.save(productItem);
                 orderItem.setQuantity(itemDTO.getQuantity());
                 orderItem.setOrder(order);
                 return orderItem;
@@ -134,5 +162,16 @@ public class OrderService {
         }else{
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ProductItem not found");
         }
+    }
+
+    private Order completedOrderCheck(Long id) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found"));
+
+        if(Objects.equals(order.getStatus(), "COMPLETED") || Objects.equals(order.getStatus(), "CANCELLED") || Objects.equals(order.getStatus(), "RETURNED")){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Order is already completed");
+        }
+
+        return order;
     }
 }
