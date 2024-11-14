@@ -1,6 +1,6 @@
 package com.awaken.kidsshop.modules.product.controller;
 
-import com.awaken.kidsshop.dto.ProductDTO;
+import com.awaken.kidsshop.modules.product.controller.dto.ProductDTO;
 import com.awaken.kidsshop.modules.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

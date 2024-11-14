@@ -1,4 +1,4 @@
-package com.awaken.kidsshop.dto;
+package com.awaken.kidsshop.modules.productitem.controller.dto;
 
 public class ProductItemDTO {
     private String name;

@@ -1,6 +1,6 @@
 package com.awaken.kidsshop.modules.productitem.service;
 
-import com.awaken.kidsshop.dto.ProductItemDTO;
+import com.awaken.kidsshop.modules.productitem.controller.dto.ProductItemDTO;
 import com.awaken.kidsshop.modules.product.entity.Product;
 import com.awaken.kidsshop.modules.productitem.entity.ProductItem;
 import com.awaken.kidsshop.modules.size.entity.Size;
