@@ -1,0 +1,12 @@
+version: '2.3'
+
+services:
+  db: 
+    image: postgres:latest
+    container_name: shopDB
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=artemiy713
+      - POSTGRES_USER=artemiy713
+      - POSTGRES_DB=dbforshop
