@@ -75,6 +75,7 @@ public class OrderService {
         orderResponse.setBuyer(saveOrder.getBuyer());
         orderResponse.setSalesDate(saveOrder.getSalesDate());
         orderResponse.setUsername(saveOrder.getUser().getUsername());
+        orderResponse.setUserId(saveOrder.getUser().getId());
         orderResponse.setOrderItems(saveOrder.getOrderItems());
         return orderResponse;
     }

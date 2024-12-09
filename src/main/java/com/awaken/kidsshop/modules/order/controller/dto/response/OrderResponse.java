@@ -22,5 +22,6 @@ public class OrderResponse {
     private String status;
     private Buyer buyer;
     private String username;
+    private Long userId;
     private Set<OrderItem> orderItems;
 }

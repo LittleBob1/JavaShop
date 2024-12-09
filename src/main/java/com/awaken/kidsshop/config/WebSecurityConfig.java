@@ -24,15 +24,29 @@ public class WebSecurityConfig{
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(getOpenedResources()).permitAll()
-                        .requestMatchers("/api/users/**").hasRole("ADMIN")
+                        .requestMatchers(
+                                "/api/users/**",
+                                "/api/roles/**",
+                                "/home/users/**").hasRole("ADMIN")
                         .requestMatchers(
                                 "/api/sizes/**",
                                 "/api/brands/**",
                                 "/api/products/**",
-                                "/api/productsItems/**").hasAnyRole("ADMIN", "MANAGER")
+                                "/api/productsItems/**",
+                                "/home/sizes/**",
+                                "/home/brands/**",
+                                "/home/products/**",
+                                "/home/productsItems/**").hasAnyRole("ADMIN", "MANAGER")
                         .requestMatchers(
                                 "/api/buyers/**",
-                                "/api/orders/**").hasAnyRole("ADMIN", "MANAGER", "CASHIER"))
+                                "/api/orders/**",
+                                "/home",
+                                "/home/buyers/**",
+                                "/home/orders/**",
+                                "/api/sellers",
+                                "/js/**").hasAnyRole("ADMIN", "MANAGER", "CASHIER")
+                        .requestMatchers(
+                                "/").hasAnyRole("ADMIN", "MANAGER", "CASHIER", "USER"))
                 .httpBasic(Customizer.withDefaults());
         return http.build();
     }

@@ -1,6 +1,6 @@
 package com.awaken.kidsshop.modules.user.service;
 
-import com.awaken.kidsshop.modules.role.dto.RoleResponse;
+import com.awaken.kidsshop.modules.role.controller.dto.RoleResponse;
 import com.awaken.kidsshop.modules.role.entity.Role;
 import com.awaken.kidsshop.modules.user.controller.dto.request.UserRequest;
 import com.awaken.kidsshop.modules.user.controller.dto.response.UserResponse;
@@ -60,6 +60,17 @@ public class UserService implements UserDetailsService {
             userResponse.setId(user.getId());
             userResponse.setUsername(user.getUsername());
             userResponse.setRoles(getRolesResponse(user));
+            return userResponse;
+        }).toList();
+    }
+
+    public List<UserResponse> allSellers() {
+        List<User> users = userRepository.findAll();
+        return users.stream().map(user -> {
+            UserResponse userResponse = new UserResponse();
+            userResponse.setId(user.getId());
+            userResponse.setUsername(user.getUsername());
+            userResponse.setRoles(null);
             return userResponse;
         }).toList();
     }

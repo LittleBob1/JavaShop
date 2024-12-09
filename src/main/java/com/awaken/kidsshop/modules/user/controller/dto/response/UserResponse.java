@@ -1,6 +1,6 @@
 package com.awaken.kidsshop.modules.user.controller.dto.response;
 
-import com.awaken.kidsshop.modules.role.dto.RoleResponse;
+import com.awaken.kidsshop.modules.role.controller.dto.RoleResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

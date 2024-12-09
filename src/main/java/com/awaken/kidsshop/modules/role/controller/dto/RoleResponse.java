@@ -1,4 +1,4 @@
-package com.awaken.kidsshop.modules.role.dto;
+package com.awaken.kidsshop.modules.role.controller.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

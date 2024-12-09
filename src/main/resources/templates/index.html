@@ -1,0 +1,91 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .role-restricted {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="d-flex">
+    <nav class="bg-light border-right p-3" style="width: 250px;">
+        <h4>Меню</h4>
+        <ul class="nav flex-column">
+            <li class="nav-item role-restricted" id="home-link">
+                <a class="nav-link" th:href="@{/home}">Главная</a>
+            </li>
+            <li class="nav-item role-restricted" id="orders-link">
+                <a class="nav-link" th:href="@{/home/orders}">Заказы</a>
+            </li>
+            <li class="nav-item role-restricted" id="buyers-link">
+                <a class="nav-link" th:href="@{/home/buyers}">Покупатели</a>
+            </li>
+            <li class="nav-item role-restricted" id="sizes-link">
+                <a class="nav-link" th:href="@{/home/sizes}">Размеры</a>
+            </li>
+            <li class="nav-item role-restricted" id="brands-link">
+                <a class="nav-link" th:href="@{/home/brands}">Бренды</a>
+            </li>
+            <li class="nav-item role-restricted" id="products-link">
+                <a class="nav-link" th:href="@{/home/products}">Товары</a>
+            </li>
+            <li class="nav-item role-restricted" id="productsItems-link">
+                <a class="nav-link" th:href="@{/home/productsItems}">Позиции товаров</a>
+            </li>
+            <li class="nav-item role-restricted" id="users-link">
+                <a class="nav-link" th:href="@{/home/users}">Пользователи</a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="flex-grow-1 p-4">
+        <h1 th:text="${pageTitle}">Управление</h1>
+        <div th:insert="~{${pageContent} :: content}"></div>
+    </div>
+
+    <div id="userRoles" style="display: none;" th:data-roles="${roles}"></div>
+</div>
+
+<script>
+    const rolesElement = document.getElementById('userRoles');
+    if (rolesElement && rolesElement.dataset.roles) {
+        const rawRoles = rolesElement.dataset.roles;
+
+        const formattedRoles = rawRoles
+            .replace(/\s/g, '')
+            .replace(/([A-Z_]+)/g, '"$1"');
+        const roles = JSON.parse(formattedRoles);
+
+        function hasRole(role) {
+            return roles.includes(role);
+        }
+
+        if (hasRole('ROLE_CASHIER')) {
+            document.getElementById('home-link').classList.remove('role-restricted');
+            document.getElementById('orders-link').classList.remove('role-restricted');
+            document.getElementById('buyers-link').classList.remove('role-restricted');
+        }
+
+        if (hasRole('ROLE_MANAGER')) {
+            document.getElementById('brands-link').classList.remove('role-restricted');
+            document.getElementById('sizes-link').classList.remove('role-restricted');
+            document.getElementById('products-link').classList.remove('role-restricted');
+            document.getElementById('productsItems-link').classList.remove('role-restricted');
+        }
+
+        if (hasRole('ROLE_ADMIN')) {
+            document.getElementById('users-link').classList.remove('role-restricted');
+        }
+    } else {
+        console.error("Роли пользователя не найдены.");
+    }
+</script>
+</body>
+</html>
