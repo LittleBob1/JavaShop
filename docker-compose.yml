@@ -5,8 +5,8 @@ services:
     image: postgres:latest
     container_name: shopDB
     ports:
-      - 5432:5432
+      - 5433:5432
     environment:
-      - POSTGRES_PASSWORD=artemiy713
-      - POSTGRES_USER=artemiy713
+      - POSTGRES_PASSWORD=yanasirina
+      - POSTGRES_USER=yanasirina
       - POSTGRES_DB=dbforshop

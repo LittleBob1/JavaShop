@@ -3,14 +3,14 @@ spring:
     name: KidsShop
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/dbforshop
-    username: artemiy713
-    password: artemiy713
+    url: jdbc:postgresql://localhost:5433/dbforshop
+    username: yanasirina
+    password: yanasirina
   flyway:
     enabled: true
-    url: jdbc:postgresql://localhost:5432/dbforshop
-    user: artemiy713
-    password: artemiy713
+    url: jdbc:postgresql://localhost:5433/dbforshop
+    user: yanasirina
+    password: yanasirina
     schemas: public
   jpa:
     show-sql: true
