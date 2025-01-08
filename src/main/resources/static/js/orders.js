@@ -89,7 +89,7 @@ function loadOrders() {
 
                 const row = `
                     <tr>
-                        <td>${order.salesDate}</td>
+                        <td>${formatDate(order.salesDate)}</td>
                         <td>${order.status}</td>
                         <td>${order.buyer ? order.buyer.name : 'Без покупателя'}</td>
                         <td>${order.user ? order.user.username : 'Без продавца'}</td>
@@ -294,3 +294,8 @@ document.addEventListener('DOMContentLoaded', () => {
             .catch(error => console.error('Ошибка добавления заказа:', error));
     });
 });
+
+const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return new Intl.DateTimeFormat('ru-RU', { dateStyle: 'medium' }).format(date);
+};
