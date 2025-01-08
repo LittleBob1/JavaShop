@@ -92,7 +92,7 @@ function loadOrders() {
                         <td>${order.salesDate}</td>
                         <td>${order.status}</td>
                         <td>${order.buyer ? order.buyer.name : 'Без покупателя'}</td>
-                        <td>${order.username ? order.username : 'Без продавца'}</td>
+                        <td>${order.user ? order.user.username : 'Без продавца'}</td>
                         <td>${order.orderItems.map(item => item.productItem.name + ", Размер: " + item.productItem.size.name).join('<br>')}</td>
                         <td>${order.orderItems.map(item => item.quantity).join('<br>')}</td>
                         <td>
