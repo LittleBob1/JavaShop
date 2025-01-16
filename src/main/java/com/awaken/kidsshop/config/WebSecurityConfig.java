@@ -34,8 +34,7 @@ public class WebSecurityConfig{
                                 "/api/products/**",
                                 "/home/sizes/**",
                                 "/home/brands/**",
-                                "/home/products/**",
-                                "/home/productsItems/**").hasAnyRole("ADMIN", "MANAGER")
+                                "/home/products/**").hasAnyRole("ADMIN", "MANAGER")
                         .requestMatchers(
                                 "/api/buyers/**",
                                 "/api/orders/**",
@@ -44,6 +43,7 @@ public class WebSecurityConfig{
                                 "/home/orders/**",
                                 "/api/sellers",
                                 "/api/productsItems/**",
+                                "/home/productsItems/**",
                                 "/js/**").hasAnyRole("ADMIN", "MANAGER", "CASHIER")
                         .requestMatchers(
                                 "/").hasAnyRole("ADMIN", "MANAGER", "CASHIER", "USER"))

@@ -107,7 +107,7 @@
                                 <option value="" disabled selected>Выберите продавца</option>
                             </select>
                         </div>
-                        <div id="edit-order-items-container" class="mb-4">
+                        <div id="edit-order-items-container" class="mb-4" hidden="hidden">
                             <h4>Позиции заказа</h4>
                             <div class="order-item-row mb-3" id="edit-order-item-template" style="display: none;">
                                 <div class="row g-3 align-items-center">
@@ -125,7 +125,9 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="button" id="edit-add-item-btn" class="btn btn-secondary mb-3">Добавить позицию</button>
+                        <button type="button" id="edit-add-item-btn" class="btn btn-secondary mb-3" hidden="hidden">
+                            Добавить позицию
+                        </button>
 
                     </form>
                 </div>
