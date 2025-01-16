@@ -76,7 +76,7 @@ function loadOrders() {
 
                 if (order.status !== 'CANCELLED' && order.status !== 'RETURNED' && order.status !== "COMPLETED") {
                     actionButtons = `
-                        <button class="btn btn-warning btn-sm" onclick="openEditOrderModal(${order.id}, '${order.salesDate}', '${order.status}', '${order.buyer.id}', '${order.userId}', '${encodeURIComponent(JSON.stringify(order.orderItems))}')">Редактировать</button><!--                        <br>-->
+                        <button class="btn btn-warning btn-sm" onclick="openEditOrderModal(${order.id}, '${order.salesDate}', '${order.status}', '${order.buyer.id}', '${order.user.id}', '${encodeURIComponent(JSON.stringify(order.orderItems))}')">Редактировать</button><!--                        <br>-->
 <!--                        <br>-->
                         <button class="btn btn-danger btn-sm" onclick="completeOrder(${order.id})">Завершить</button>
 <!--                        <br>-->
